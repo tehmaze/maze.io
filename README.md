@@ -42,6 +42,27 @@ We support serveral formats:
 :       Will be formatted with a Textile reader
 
 
+Template metadata
+-----------------
+
+You can embed a small header in the templates to override some of the defaults
+for the given file type. For example, to embed site content in a layout
+template, you may use:
+
+    ---
+    reader: jinja2
+    template: page.html
+    ---
+
+This will parse the file using the Jinja2 template engine and then look for
+page.html in project/_layout and provide the generated template via the
+page.content variable. See
+[maze/_layout/page.html](https://github.com/tehmaze/maze.io/blob/master/maze/_layout/page.html)
+and
+[maze/index.html](https://github.com/tehmaze/maze.io/blob/master/maze/index.html)
+for an example on how to use this.
+
+
 Configuration file
 ------------------
 
