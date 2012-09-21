@@ -1,0 +1,4 @@
+bbcode>=1.0
+docutils>=0.9
+Markdown>=2.0
+textile>=2.0

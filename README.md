@@ -11,6 +11,10 @@ Installation is easy:
 
     $ pip -r requirements.txt
 
+To install support for all readers (for formatting):
+
+    $ pip -r requirements-recommended.txt
+
 
 Directory layout
 ----------------
