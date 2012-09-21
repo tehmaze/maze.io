@@ -1,0 +1,14 @@
+{% include "header.html" %}
+
+  <h2>{{ page.title }}</h2>
+  <div class="post-meta">
+    <p>Posted on {{ page.date|date("%B %d, %Y") }}</p>
+  </div>
+
+  {{ page.content }}
+
+  <div class="post-comment">
+{% include "comment.html" %}
+  </div>
+
+{% include "footer.html" %}

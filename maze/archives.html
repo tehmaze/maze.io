@@ -1,0 +1,15 @@
+---
+reader: jinja
+template: page
+title: archives
+---
+    <h2>Archives</h2>
+
+    <dl>
+{% for date in site.archives|sort|reverse -%}
+  {% if date|length == 1 %}
+      <dt><a href="/{{ date[0] }}/">{{ date[0] }}</a></dt>
+      <dd>{{ site.archives[date]|length }} posts</dd>
+  {% endif -%}
+{% endfor -%}
+    </dl>

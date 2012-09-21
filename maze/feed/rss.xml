@@ -1,0 +1,26 @@
+---
+template: feed.rss
+---
+{% set timestamp = "%a, %d %b %Y %H:%M:%S %Z" -%}
+  <channel>
+    <title>{{ site.title }}</title>
+    <atom:link href="{{ site.href }}/feed/" rel="self" type="application/rss+xml" />
+    <link>{{ site.href }}</link>
+    <description>{{ site.tagline }}</description>
+    <lastBuildDate>{{ site.posts[0].date|date(timestamp) }}</lastBuildDate>
+    <language>en-GB</language>
+    <sy:updatePeriod>hourly</sy:updatePeriod>
+    <sy:updateFrequency>1</sy:updateFrequency>
+    {% for post in site.posts -%}
+    <item>
+      <title>{{ post.title|escape }}</title>
+      <link>{{ site.href }}{{ post.link }}</link>
+      <pubDate>{{ post.date|date(timestamp) }}</pubDate>
+      <dc:creator>maze</dc:creator>
+      {% if post.category -%}
+      <category><![CDATA[{{ post.category }}]]</category>
+      {% endif -%}
+      <description><![CDATA[{{ post.content|first }}]]</description>
+    </item>
+    {% endfor -%}
+  </channel>

@@ -1,0 +1,20 @@
+---
+reader: jinja
+template: page
+---
+{% set grouptrack = "" -%}
+{% for post in site.posts|reverse %}
+{% set group = post.date|date("%Y") %}
+  {% if group != grouptrack %}
+  {% set grouptrack = group %}
+  <h2>{{ group }}</h2>
+  {% endif %}
+  <article class="link">
+    <h3>
+      <a href="{{ post.link }}">{{ post.title }}</a>
+      <small>{{ post.date }}</small>
+    </h3>
+    {{ post.content|first }}
+    &hellip; <a href="{{ post.link }}">read more</a>
+  </article>
+{% endfor %}

@@ -1,0 +1,27 @@
+---
+layout: feed.atom
+---
+{% set timestamp = "%Y-%m-%dT%H:%M:%SZ" -%}
+<title type="text">{{ site.title|escape }}</title>
+<subtitle type="text">{{ site.tagline|escape }}</subtitle>
+<updated>{{ site.posts[0].date|date(timestamp )}}</updated>
+<link rel="alternate" type="text/html" href="{{ site.href }}" />
+<id>{{ site.href }}/feed/atom/</id>
+{% for post in site.posts[:10] -%}
+<entry>
+  <author>
+    <name>{{ site.author }}</name>
+    <uri>{{ site.href }}</uri>
+  </author>
+  <title type="text">{{ post.title|escape }}</title>
+  <link rel="alternate" type="text/html" href="{{ site.href }}{{ post.link }}" />
+  <id>{{ site.href }}{{ post.link }}</id>
+  <updated>{{ post.date|date(timestamp) }}</updated>
+  <published>{{ post.date|date(timestamp) }}</published>
+  {% if post.category -%}
+  <category scheme="{{ site.href }}" term="{{ post.category|title }}" />
+  {% endif -%}
+  <summary type="html"><![CDATA[{{ post.content|first }}]]></summary>
+  <thr:total>0</thr:total>
+</entry>
+{% endfor -%}
