@@ -45,4 +45,4 @@ We support serveral formats:
 Configuration file
 ------------------
 
-See maze.cfg for an example, use the source Luke!
+See [maze.cfg](maze.cfg) for an example, use the source Luke!
