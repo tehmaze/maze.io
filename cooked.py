@@ -8,8 +8,10 @@ import datetime
 import fnmatch
 import os
 import re
+import shlex
 import shutil
 import string
+import subprocess
 import sys
 # External modules
 try:
@@ -220,7 +222,7 @@ class Cooked(object):
             
             return filedata, metadata
     
-    def open(self, filename, mode='r'):
+    def open(self, filename, mode='r', encoding=None):
         # Make sure the target directory exists if a file is opened for
         # writing (or appending)
         if 'w' in mode or 'a' in mode:
@@ -228,8 +230,58 @@ class Cooked(object):
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
             
-        return codecs.open(filename, mode=mode,
-            encoding=self.config.get('cooked', 'encoding'))
+        encoding = encoding or self.config.get('cooked', 'encoding')
+        if encoding == 'binary':
+            mode += 'b'
+            return open(filename, mode=mode)
+        else:
+            return codecs.open(filename, mode=mode, encoding=encoding)
+    
+    def output(self, filename, content_or_handle, encoding=None):
+        if hasattr(content_or_handle, 'read'):
+            content = content_or_handle.read()
+        else:
+            content = content_or_handle
+        
+        encoding = encoding or self.config.get('cooked', 'encoding')
+        for pattern, commands in self.config.items('filter'):
+            if fnmatch.fnmatch(filename, pattern):
+                commands = commands.format(
+                    filename=filename,
+                    stdout='/dev/stdout',
+                    stderr='/dev/stderr',
+                    stdin='/dev/stdin',
+                )
+                print 'Filters', filename
+                # We support multiple pipes, the output of one pipe is the
+                # input for the next one (yes that's what piping is ;-)
+                for command in commands.split('|'):
+                    print '      |', command
+                    pipe = subprocess.Popen(shlex.split(command.strip()),
+                        shell=True,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        stdin=subprocess.PIPE,
+                    )
+                    
+                    if encoding == 'binary':
+                        result = pipe.communicate(content)
+                    else:
+                        result = pipe.communicate(content.encode(encoding))
+                    
+                    if pipe.returncode == 0:
+                        content = result[0]
+                        if encoding != 'binary':
+                            content = content.decode(encoding)
+                    elif self.config.getboolean('filter', 'ignore_errors'):
+                        pass
+                    else:
+                        raise RuntimeError(result[1])
+                break
+        
+        print 'Writing', filename
+        with self.open(filename, 'w', encoding=encoding) as handle:
+            handle.write(content)
     
     def _post_sort(self, a, b):
         if a['year'] == b['year']:
@@ -268,9 +320,8 @@ class Cooked(object):
                 target,
             )).format(**metadata)
             
-            print 'Writing', copyname
-            with self.open(copyname, 'w') as handle:
-                handle.write(content)
+            # Output data
+            self.output(copyname, content)
         
         # Tell the site context about the archives
         self.context['archives'] = archives
@@ -284,7 +335,11 @@ class Cooked(object):
 
         for pattern in self.pattern:
             if fnmatch.fnmatch(filename, pattern):
-                filedata, metadata = self.read_metadata(filename)
+                try:
+                    filedata, metadata = self.read_metadata(filename)
+                except TypeError, e:
+                    print 'Failure', filename
+                    raise
                 content = metadata['reader'](self).render(filedata)
                 
                 # This file wants to be rendered inside a template, let's
@@ -302,10 +357,8 @@ class Cooked(object):
                         template, metadata
                     )
                 
-                print 'Writing', copyname
-                with self.open(copyname, 'w') as handle:
-                    handle.write(content)
-                    
+                # Output data
+                self.output(copyname, content)
                 return
         
         # Still here? Just copy the file over
@@ -313,7 +366,12 @@ class Cooked(object):
         dirname = os.path.dirname(copyname)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
-        shutil.copy2(filename, copyname)
+        
+        with open(filename, 'rb') as handle:
+            self.output(copyname, handle, encoding='binary')
+        
+        # Copy the original file attributes
+        shutil.copystat(filename, copyname)
     
     def parse_post(self, filename, filedata, metadata={}):
         '''
@@ -361,9 +419,9 @@ class Cooked(object):
             self.config.get('cooked', 'target'),
             self.config.get('post', 'target'),
         )).replace(os.sep + os.sep, os.sep).format(**metadata)
-        print 'Writing', copyname
-        with self.open(copyname, 'w') as handle:
-            handle.write(content)
+
+        # Output the file
+        self.output(copyname, content)
         
         # Add the post to the site context
         self.context['posts'].append(metadata)
@@ -421,7 +479,7 @@ class Cooked(object):
 
         for name in os.listdir(dirname):
             # Skip files prefixed with an underscore, it's like magic
-            if name.startswith('_'):
+            if name.startswith('_') or name.startswith('._'):
                 continue
                 
             path = os.path.join(dirname, name)
