@@ -45,4 +45,5 @@ We support serveral formats:
 Configuration file
 ------------------
 
-See [maze.cfg](maze.cfg) for an example, use the source Luke!
+See [maze.cfg](https://github.com/tehmaze/maze.io/blob/master/maze.cfg) for an
+example, use the source Luke!
