@@ -5,6 +5,7 @@ Changes
 
  *  Filters: allow post-processing of the parsed files for easy minifying or
     tidying of the generated content
+ *  Copy the original file attributes of the post to the rendered file
 
 == 2012-09-18
 

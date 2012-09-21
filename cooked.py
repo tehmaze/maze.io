@@ -420,8 +420,9 @@ class Cooked(object):
             self.config.get('post', 'target'),
         )).replace(os.sep + os.sep, os.sep).format(**metadata)
 
-        # Output the file
+        # Output the file and copy the original file attributes
         self.output(copyname, content)
+        shutil.copystat(filename, copyname)
         
         # Add the post to the site context
         self.context['posts'].append(metadata)
