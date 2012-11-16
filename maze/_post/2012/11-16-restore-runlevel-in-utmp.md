@@ -7,9 +7,9 @@ Red Hat 5 (and CentOS) there have been [various reports](http://m9.href.be/)
 about tools having issues with utmp. We ran into this issue on multiple
 occasions on our production systems.
 
-Why is is a problem? Puppet.
+Why it is a problem? Puppet.
 
-The redhat.rb service provide in Puppet uses
+The [redhat.rb service provider](http://n9.href.be/) in Puppet uses
 [chkconfig](http://linux.die.net/man/8/chkconfig) to determine if a service
 should run for a given runlevel. If you corrupt utmp, chkconfig will get
 properly confused:
