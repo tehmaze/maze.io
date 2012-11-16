@@ -28,7 +28,7 @@ init level 4 and back (assuming that your headless server defaults to runlevel
 3):
 
     :::bash
-    # runlevel || (telinit 4 && telinit 3 ; runlevel)
+    $ runlevel || (telinit 4 && telinit 3 ; runlevel)
     unknown
     4 3
 
