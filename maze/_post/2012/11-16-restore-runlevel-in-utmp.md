@@ -49,5 +49,5 @@ Now the runlevel information in utmp is restored, and chkconfig knows what to
 do again:
 
     :::bash
-    # chkconfig puppet ; echo $?
+    $ chkconfig puppet ; echo $?
     0
