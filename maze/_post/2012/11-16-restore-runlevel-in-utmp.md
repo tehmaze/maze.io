@@ -14,10 +14,11 @@ The redhat.rb service provide in Puppet uses
 should run for a given runlevel. If you corrupt utmp, chkconfig will get
 properly confused:
 
-    # chkconfig puppet ; echo $?
+    :::bash
+    $ chkconfig puppet ; echo $?
     0
-    # > /var/run/utmp # Don't do this!
-    # chkconfig puppet ; echo $?
+    $ > /var/run/utmp # Don't do this!
+    $ chkconfig puppet ; echo $?
     cannot determine current run level
     1
 
@@ -26,6 +27,7 @@ run. To "restore" the current runlevel information in utmp, we can switch to
 init level 4 and back (assuming that your headless server defaults to runlevel
 3):
 
+    :::bash
     # runlevel || (telinit 4 && telinit 3 ; runlevel)
     unknown
     4 3
@@ -33,7 +35,8 @@ init level 4 and back (assuming that your headless server defaults to runlevel
 In Red Hat (and CentOS) you can check what services are possibly affected by
 switching runlevels, using the very same chkconfig tool:
 
-    # chkconfig --list | grep '[34]:on'
+    :::bash
+    $ chkconfig --list | grep '[34]:on'
     acpid           0:off   1:off   2:on    3:on    4:on    5:on    6:off
     atd             0:off   1:off   2:off   3:on    4:on    5:on    6:off
     auditd          0:off   1:off   2:on    3:on    4:on    5:on    6:off
@@ -45,5 +48,6 @@ switching runlevels, using the very same chkconfig tool:
 Now the runlevel information in utmp is restored, and chkconfig knows what to
 do again:
 
+    :::bash
     # chkconfig puppet ; echo $?
     0
