@@ -13,4 +13,12 @@ hot](https://github.com/tehmaze/lolcat#readme)!
 
 ![](/images/post/lolcat.png)
 
-Check out the ASCII cast at http://ascii.io/a/1563
+Check out the ASCII cast at [ascii.io](http://ascii.io/a/1563).
+
+Installing lolcat
+=================
+
+To install the stable version:
+
+    :::bash
+    $ pip install lolcat
