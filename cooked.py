@@ -160,6 +160,7 @@ class Cooked(object):
         inside the header are allowed, comments may be inserted prefixing the
         line with a hash sign (#) or a semi colon (;).
         '''
+        print 'Parsing', filename
         with codecs.open(filename, 'r',
             encoding=self.config.get('cooked', 'encoding')) as handle:
             
@@ -328,6 +329,7 @@ class Cooked(object):
         self.context['posts'].sort(self._post_sort)
     
     def parse_file(self, filename):
+        print 'Reading', filename
         copyname = filename.replace(
             os.path.abspath(self.config.get('cooked', 'source')),
             os.path.abspath(self.config.get('cooked', 'target')),

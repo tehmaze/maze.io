@@ -3,7 +3,10 @@ reader: jinja
 template: page
 ---
 {% set grouptrack = "" -%}
+{% set track = 0 %}
 {% for post in site.posts|reverse %}
+{% set track = track + 1 %}
+{% if track < 5 %}
 {% set group = post.date|date("%Y") %}
   {% if group != grouptrack %}
   {% set grouptrack = group %}
@@ -17,4 +20,8 @@ template: page
     {{ post.content|first }}
     &hellip; <a href="{{ post.link }}">read more</a>
   </article>
+{% endif %}
 {% endfor %}
+  <p>
+    Continue reading from the <a href="/archives.html">archives</a>.
+  </p>

@@ -5,11 +5,18 @@ title: archives
 ---
     <h2>Archives</h2>
 
-    <dl>
 {% for date in site.archives|sort|reverse -%}
   {% if date|length == 1 %}
-      <dt><a href="/{{ date[0] }}/">{{ date[0] }}</a></dt>
-      <dd>{{ site.archives[date]|length }} posts</dd>
+    {% set posts = site.archives[date] -%}
+    <h3>Posts for <a href="/{{ date[0] }}/">{{ date[0] }}</a></h3>
+    <ul>
+    {% for post in posts %}
+     <li>
+       <a href="{{ post.link }}">{{ post.title|escape }}</a>
+      {% if not day %}
+       <small>{{ post.date|date("%B %d") }}</small>
+      {% endif %}
+     </li>
+    {% endfor %}
   {% endif -%}
 {% endfor -%}
-    </dl>
