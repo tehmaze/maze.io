@@ -2,10 +2,10 @@
 title: ipcalc-1.0.0
 category: python
 ---
-The [ipcalc](https://pypi.python.org/pypi/ipcalc) has reached version 1.0! The
-API is stable enough for a 1.x release now. There are no API changes between
-the 0.x and 1.x versions, if such changes may occur we will switch to a new
-major version.
+The [ipcalc](https://pypi.python.org/pypi/ipcalc) project has reached version
+1.0! The API is stable enough for a 1.x release now. There are no API changes
+between the 0.x and 1.x versions, if such changes may occur we will switch to a
+new major version.
 
 Examples
 --------
