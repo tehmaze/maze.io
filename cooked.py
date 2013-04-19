@@ -19,19 +19,27 @@ try:
     from jinja2 import Environment, FileSystemLoader, nodes
     from jinja2.exceptions import TemplateSyntaxError
     from jinja2.ext import Extension
-except ImportError:
+except ImportError, e:
     print >>sys.stdout, ' '.join(e.args)
     print >>sys.stdout, 'Some dependancies are not installed, see README.md'
     sys.exit(1)
 # Optional imports for the formatters
-try: import bbcode
-except ImportError: pass
-try: import docutils.core
-except ImportError: pass
-try: import markdown
-except ImportError: pass
-try: import textile
-except ImportError: pass
+try:
+    import bbcode
+except ImportError, e:
+    print >>sys.stdout, 'Warning, failed to import bbcode: %s' % str(e)
+try:
+    import docutils.core
+except ImportError, e:
+    print >>sys.stdout, 'Warning, failed to import docutils: %s' % str(e)
+try:
+    import markdown
+except ImportError, e:
+    print >>sys.stdout, 'Warning, failed to import markdown: %s' % str(e)
+try:
+    import textile
+except ImportError, e:
+    print >>sys.stdout, 'Warning, failed to import textile: %s' % str(e)
 
 class Reader(object):
     formatter = None
