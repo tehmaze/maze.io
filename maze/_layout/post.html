@@ -1,5 +1,5 @@
-{% include "header.html" %}
-
+{% extends "base.html" %}
+{% block content %}
   <h2>{{ page.title }}</h2>
   <div class="post-meta">
     <p>Posted on {{ page.date|date("%B %d, %Y") }}</p>
@@ -10,5 +10,4 @@
   <div class="post-comment">
 {% include "comment.html" %}
   </div>
-
-{% include "footer.html" %}
+{% endblock %}

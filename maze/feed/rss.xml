@@ -1,4 +1,5 @@
 ---
+reader: jinja
 template: feed.rss
 ---
 {% set timestamp = "%a, %d %b %Y %H:%M:%S %Z" -%}
@@ -7,11 +8,11 @@ template: feed.rss
     <atom:link href="{{ site.href }}/feed/" rel="self" type="application/rss+xml" />
     <link>{{ site.href }}</link>
     <description>{{ site.tagline }}</description>
-    <lastBuildDate>{{ site.posts[0].date|date(timestamp) }}</lastBuildDate>
+    <lastBuildDate>{{ site.posts[-1].date|date(timestamp) }}</lastBuildDate>
     <language>en-GB</language>
     <sy:updatePeriod>hourly</sy:updatePeriod>
     <sy:updateFrequency>1</sy:updateFrequency>
-    {% for post in site.posts -%}
+    {% for post in site.posts[-10:]|reverse -%}
     <item>
       <title>{{ post.title|escape }}</title>
       <link>{{ site.href }}{{ post.link }}</link>

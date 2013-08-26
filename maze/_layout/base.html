@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>
+  {%- if page and page.title -%}
+    {{ site.title }} &raquo; {{ page.title }}
+  {%- else -%}
+    {{ site.title }}
+  {%- endif -%}
+  </title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/buttons.css">
+  <script type="text/javascript" src="https://use.typekit.net/sng3dmb.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <link rel="alternate" type="application/atom+xml"
+    title="{{ site.title }} Atom Feed" href="/feed/atom.xml">
+  <link rel="alternate" type="application/rss+xml"
+    title="{{ site.title }} RSS Feed" href="/feed/rss.xml">
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+  <header class="inner">
+    <a href="/"><pre id="project_title">                       _______
+ ____________ _______ _\__   /_________        ___  _____
+|    _   _   \   _   |   ____\   _    /       |   |/  _  \
+|    /   /   /   /   |  |     |  /___/    _   |   |   /  /
+|___/___/   /___/____|________|___   |   |_|  |___|_____/
+        \__/                     |___|</pre></a>
+    <h2 id="project_tagline">{{ site.tagline }}</h2>
+    <ul>
+      <li><a href="/">Blog</a></li>
+      <li><a href="/archives.html">Archives</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/mail/">Webmail</a></li>
+      <li><a href="http://keyserver.maze.io/">Keyserver</a></li>
+    </ul>
+  </header>
+</div>
+
+ <!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+  <section id="main_content" class="inner">
+{% block content %}{% endblock %}
+  </section>
+</div>
+
+{% set contact = 'https://maze.io/contact.html' %}
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+  <footer class="inner">
+    <nav>
+      <div class="icons">
+        <div class="icon">
+          <a href="{{ contact }}">
+            <img src="/images/icon/twitter.png" title="Twitter">
+          </a>
+        </div>
+        <div class="icon">
+          <a href="{{ contact }}">
+            <img src="/images/icon/facebook.png" title="Facebook">
+          </a>
+        </div>
+        <div class="icon">
+          <a href="{{ contact }}">
+            <img src="/images/icon/linkedin.png" title="Linkedin">
+          </a>
+        </div>
+        <div class="icon">
+          <a href="{{ contact }}">
+            <img src="/images/icon/google+1.png" title="Google+">
+          </a>
+        </div>
+      </div>
+    </nav>
+    <p class="copyright">(c) 1996 - 2013 Wijnand Modderman-Lenstra</p>
+  </footer>
+</div>
+</body>
+</html>

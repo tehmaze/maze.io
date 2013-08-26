@@ -1,0 +1,138 @@
+---
+reader: jinja
+template: page
+---
+{% macro video(icon, title, url, author, license, description) -%}
+{% set slug = title | lower | replace(' ', '-') -%}
+<div class="section" id="{{ slug }}" style="clear:both; cursor: pointer">
+  <img src="/images/icon/{{ icon }}" align="right">
+  <h4>{{ title|title }}</h4>
+</div>
+<div id="detail-{{ slug }}">
+  <p>{{ description }}</p>
+  <video
+    src="{{ url }}.webm"
+    poster="{{ url }}.jpg"
+    id="video-{{ slug }}"
+    controls style="width:660px">
+    {{ description }}
+  </video>
+  <table class="table">
+    <tbody>
+      <tr><th>Author</th><td>{{ author }}</td></tr>
+      <tr><th>License</th><td>{{ license }}</td></tr>
+    </tbody>
+  </table>
+</div>
+{%- endmacro %}
+
+<h2>Videos</h2>
+
+<h3>Electronic components</h3>
+
+{{ video('symbol/oscillator%20crystal.png',
+  'Crystal oscillators',
+  '/mirror/electro/component/CHARACTERISTICS%20OF%20CRYSTALS-CCen81IytsM',
+  'USA Department of Defense',
+  'CC-BY',
+  'Stresses the importance of frequency stability and introduces the crystal
+  controlled oscillator as a possible device used to obtain this stability.
+  Explains the piezoelectric effect of a crystal, lists types of crystals
+  having the piezoelectric effect, and points out the relationship between
+  crystal thickness and frequency. Various crystal cuts are explained and shown
+  graphically. The Q of the crystal circuit is explained, and both the physical
+  dimensions and electrical characteristics of a typical crystal are
+  discussed.'
+) }}
+
+{{ video('symbol/diode.png',
+  'Diodes',
+  '/mirror/electro/component/DIODES-JBtEckh3L9Q',
+  'Universidad de Granada (Spain)',
+  'Youtube',
+  'The PN-junction, how diodes work.',
+) }}
+
+{{ video('symbol/capacitor.png',
+   'Capacitors',
+  '/mirror/electro/component/CAPACITORS-xTi6Q0hM3XQ',
+  'USA Department of Defense',
+  'CC-BY',
+  'Defines electrostatic field and dielectric. Describes air, paper, oil,
+  electrolytic, and ceramic type capacitors as to their construction and
+  general usage. The unit for measuring capacitors, the "farad", is stated and
+  examples of computing capacitance are given. The factors of dielectric, plate
+  area, and distance between plates which affect the value of capacitance are
+  presented, and the narrator discusses their effects on capacitance. Defines
+  voltage rating and explains the factors which affect the voltage ratings of
+  capacitors.'
+) }}
+
+{{ video('symbol/inductor.png',
+  'Magnets',
+  '/mirror/electro/component/HOW%20MAGNETS%20PRODUCE%20ELECTRICITY-FehUCQKKRwo',
+  'USA Department of Defense',
+  'CC-BY',
+  'How a magnetic field effects a single atom, a group of atoms and a wire in a
+  closed circuit with a meter',
+) }}
+
+{{ video('symbol/resistor.png',
+  'Resistors',
+  '/mirror/electro/component/RESISTANCE-zYlsqOK5BiY',
+  'USA Department of Defense',
+  'CC-BY',
+  'Demonstrations are used to show effect on resistance as length, diameter,
+  and temperature of a material are changed. Construction of several different
+  resistors is discussed and their use in circuit demonstration.'
+) }}
+
+{{ video('symbol/transformer.png',
+  'Transformers',
+  '/mirror/electro/component/TRANSFORMERS-eZVpufRn3ao',
+  'USA Department of Defense',
+  'CC-BY',
+  'Defines and explains following terms in reference to transformers:
+  transformer action, step-up, step-down, and coefficient of coupling.
+  Explains voltage and current magnitude relationships in primary and secondary
+  of transformer. Shows difference between symbols used to represent: power,
+  audio, rf, and auto transformers. Using a transformer demonstrator and a
+  psm-6 multimeter, shows test equipment checks sufficient to identify
+  transformer opens, shorts, and turn-ration as related to step-up and
+  step-down.'
+) }}
+
+<script src="/js/jquery.js"></script>
+<script>
+  (function($) {
+    $(document).ready(function() {
+      var details = [];
+      var videos = [];
+      $('.section').each(function(i, section) {
+        var header = $(section);
+        var detail = $('#detail-' + header[0].id);
+        detail.css({display: 'none'});
+        details.push(detail);
+        videos.push($('#video-' + header[0].id)[0]);
+        header.click(function() {
+          document.location.hash = header[0].id;
+          $.each(details, function(j, other) {
+            if (other == detail) {
+              other.css({display: 'block'});
+            } else {
+              other.css({display: 'none'});
+            }
+            if (typeof videos[j] != 'undefined' && !videos[j].paused) {
+              videos[j].pause();
+            }
+          });
+        });
+      });
+    });
+
+    if (document.location.hash) {
+      var open = $(document.location.hash);
+      if (open) open.click();
+    }
+  })(jQuery);
+</script>

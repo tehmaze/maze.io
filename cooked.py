@@ -441,6 +441,7 @@ class Cooked(object):
         env = Environment(
             extensions=self.template_extensions,
             loader=FileSystemLoader(dirname),
+            lstrip_blocks=False,
         )
         env.filters.update(self.template_filters)
         return env
